@@ -21,6 +21,6 @@ scribeflow path/to/file.docx
 ```
 
 ## Notes
-- `.env` now includes OpenRouter settings and defaults the model to `google/gemini-3-flash`.
+- `.env` now includes OpenRouter settings and defaults the model to `google/gemini-2.5-flash-lite`.
 - If `OPENROUTER_API_KEY` is present, the service calls OpenRouter.
 - Without an API key, the service falls back to deterministic local heuristics so development can continue.

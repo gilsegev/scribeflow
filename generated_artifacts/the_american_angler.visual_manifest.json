@@ -1,0 +1,111 @@
+[
+  {
+    "anchor_sentence": "As of 2026, recreational fishing remains the most popular outdoor sporting activity in the United States, surpassing even golf and tennis in terms of active participants.",
+    "rationale": "This sentence presents a comparison of participation numbers between different sports. A visual comparing these activities would make the ranking immediately clear and easier to grasp than text alone.",
+    "template_type": "versus_split",
+    "data_payload": {
+      "title": "Popularity of Outdoor Sports in the US (2026)",
+      "left_column_title": "Recreational Fishing",
+      "left_column_text": "Most Popular Outdoor Sporting Activity",
+      "right_column_title": "Other Popular Sports (e.g., Golf, Tennis)",
+      "right_column_text": "Lower Participation than Fishing",
+      "comparison_point": "Active Participants"
+    }
+  },
+  {
+    "anchor_sentence": "The \"old reliable\" for monofilament lines. It is easy to tie and maintains roughly 85-90% of the line’s original strength.",
+    "rationale": "Describing a knot-tying process is abstract and difficult to follow in text. A step-by-step visual guide is essential for learning this practical skill.",
+    "template_type": "step_journey",
+    "data_payload": {
+      "title": "How to Tie the Improved Clinch Knot",
+      "steps": [
+        {
+          "step_number": 1,
+          "instruction": "Pass the tag end through the eye of the hook.",
+          "image_description": "Diagram showing fishing line passing through hook eye."
+        },
+        {
+          "step_number": 2,
+          "instruction": "Wrap the tag end around the standing line 5-7 times.",
+          "image_description": "Diagram showing tag end wrapping around main line."
+        },
+        {
+          "step_number": 3,
+          "instruction": "Pass the tag end back through the loop closest to the hook eye.",
+          "image_description": "Diagram showing tag end going through the first loop formed."
+        },
+        {
+          "step_number": 4,
+          "instruction": "Pass the tag end through the large loop that has now formed.",
+          "image_description": "Diagram showing tag end going through the larger loop."
+        },
+        {
+          "step_number": 5,
+          "instruction": "Moisten the knot with saliva and pull both the standing line and tag end to tighten.",
+          "image_description": "Diagram showing the knot being tightened, with a water droplet icon indicating moisture."
+        }
+      ]
+    }
+  },
+  {
+    "anchor_sentence": "The U.S. is home to thousands of species, but four \"Kings\" dominate the industry:",
+    "rationale": "This section introduces four key game fish. A visual showcasing each fish with a brief identifier would help readers quickly distinguish and remember them.",
+    "template_type": "bento_grid",
+    "data_payload": {
+      "title": "Top 4 Game Fish of the United States",
+      "items": [
+        {
+          "image_description": "Illustration of a Largemouth Bass",
+          "title": "Largemouth Bass",
+          "description": "Aggressive strikes, ambush hunter. Found in weedy lakes/ponds."
+        },
+        {
+          "image_description": "Illustration of a Channel Catfish",
+          "title": "Channel Catfish",
+          "description": "Strong sense of smell, powerful fighter. Found in rivers and murky lakes."
+        },
+        {
+          "image_description": "Illustration of a Rainbow Trout",
+          "title": "Rainbow Trout",
+          "description": "Beautiful, challenging to catch (fly fishing). Found in cold, oxygenated rivers."
+        },
+        {
+          "image_description": "Illustration of a Walleye",
+          "title": "Walleye",
+          "description": "Prized for white, flaky meat. Found in deep, rocky northern lakes."
+        }
+      ]
+    }
+  },
+  {
+    "anchor_sentence": "Texas is arguably the most diverse fishing state in the Union, offering everything from desert reservoirs to swampy bayous.",
+    "rationale": "This sentence describes the diverse aquatic environments within Texas. A map highlighting the key fishing locations mentioned would provide geographical context and illustrate the diversity.",
+    "template_type": "story_image",
+    "data_payload": {
+      "title": "Texas' Premier Fishing Destinations",
+      "image_description": "Map of Texas with key fishing lakes highlighted and labeled.",
+      "points_of_interest": [
+        {
+          "name": "Lake Fork",
+          "description": "Trophy Bass (Catch & Release)",
+          "location_marker": "East Texas"
+        },
+        {
+          "name": "Lake Texoma",
+          "description": "Striper Capital (Freshwater Striped Bass)",
+          "location_marker": "North Texas/Oklahoma Border"
+        },
+        {
+          "name": "O.H. Ivie",
+          "description": "Modern Powerhouse for Legacy Bass",
+          "location_marker": "West Texas"
+        },
+        {
+          "name": "Sam Rayburn & Toledo Bend",
+          "description": "Proving grounds, vast timbered reservoirs",
+          "location_marker": "East Texas/Louisiana Border"
+        }
+      ]
+    }
+  }
+]

@@ -68,7 +68,7 @@ def _heuristic(markdown: str, page_estimate: int) -> dict[str, Any]:
 
 class ScribeLLM:
     def __init__(self, model: str | None = None) -> None:
-        self.model = model or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-3-flash")
+        self.model = model or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-2.5-flash-lite")
         openrouter_key = os.getenv("OPENROUTER_API_KEY")
         self.client = (
             OpenAI(
