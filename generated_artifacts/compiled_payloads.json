@@ -1,193 +1,341 @@
-[
-  {
-    "visualizationId": "lesson-1-viz-1",
-    "type": "versus_split",
-    "anchorSentence": "As of 2026, recreational fishing remains the most popular outdoor sporting activity in the United States, surpassing even golf and tennis in terms of active participants.",
-    "rationale": "This sentence presents a comparison of participation numbers between different sports. A visual comparing these activities would make the ranking immediately clear and easier to grasp than text alone.",
-    "payload": {
-      "title": "Popularity of Outdoor Sports in the US (2026)",
-      "left": {
-        "title": "Recreational Fishing",
-        "text": "Most Popular Outdoor Sporting Activity"
+{
+  "course": {
+    "title": "ScribeFlow Course",
+    "targetAudience": "Curriculum learners requiring visual reinforcement",
+    "designPhilosophy": "Pedagogical clarity with calm, scannable visuals.",
+    "learningScienceRationale": [
+      {
+        "principle": "Dual Coding Theory",
+        "theorist": "Paivio",
+        "description": "Pair text with visuals to improve retention."
       },
-      "right": {
-        "title": "Other Popular Sports (e.g., Golf, Tennis)",
-        "text": "Lower Participation than Fishing"
+      {
+        "principle": "Signaling Principle",
+        "theorist": "Mayer",
+        "description": "Highlight key contrasts and structure to reduce search effort."
+      }
+    ],
+    "globalStyleGuide": {
+      "colorPalette": {
+        "riverBlue": "#00425A",
+        "forestGreen": "#1F8A7E",
+        "sunriseGold": "#BFDB38",
+        "stoneGrey": "#F0A500",
+        "foamWhite": "#EFEFEF",
+        "deepNavy": "#333333",
+        "warningOrange": "#F0A500"
       },
-      "comparisonPoint": "Active Participants"
-    },
-    "globalStyleGuide": {
-      "palette": [
-        "#00425A",
-        "#1F8A7E",
-        "#BFDB38",
-        "#F0A500",
-        "#EFEFEF",
-        "#333333"
-      ],
-      "mood": "Informative, Adventurous, Natural",
-      "themeVars": {
-        "primary": "#00425A",
-        "secondary": "#1F8A7E",
-        "accent": "#BFDB38",
-        "surface": "#EFEFEF",
-        "text": "#333333"
-      }
+      "typography": {
+        "fontFamily": [
+          "Inter",
+          "Source Sans Pro"
+        ],
+        "heading": "18-22pt bold",
+        "body": "12-14pt regular",
+        "decorativeFontsAllowed": false
+      },
+      "layout": {
+        "whitespace": "Generous",
+        "clutter": "None",
+        "principle": "Every element must earn its place"
+      },
+      "illustrationStyle": {
+        "design": "Clean vector infographics + realistic photo-based story images",
+        "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+        "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)"
+      },
+      "mood": "Informative, Adventurous, Natural"
     }
   },
-  {
-    "visualizationId": "lesson-1-viz-2",
-    "type": "step_journey",
-    "anchorSentence": "The \"old reliable\" for monofilament lines. It is easy to tie and maintains roughly 85-90% of the line’s original strength.",
-    "rationale": "Describing a knot-tying process is abstract and difficult to follow in text. A step-by-step visual guide is essential for learning this practical skill.",
-    "payload": {
-      "title": "How to Tie the Improved Clinch Knot",
-      "items": [
+  "lessons": [
+    {
+      "lessonId": "lesson-1",
+      "title": "Auto-generated lesson",
+      "description": "Generated from Prompt-1 visual manifest.",
+      "visualizations": [
         {
-          "step_number": 1,
-          "instruction": "Pass the tag end through the eye of the hook.",
-          "image_description": "Diagram showing fishing line passing through hook eye."
-        },
-        {
-          "step_number": 2,
-          "instruction": "Wrap the tag end around the standing line 5-7 times.",
-          "image_description": "Diagram showing tag end wrapping around main line."
-        },
-        {
-          "step_number": 3,
-          "instruction": "Pass the tag end back through the loop closest to the hook eye.",
-          "image_description": "Diagram showing tag end going through the first loop formed."
-        },
-        {
-          "step_number": 4,
-          "instruction": "Pass the tag end through the large loop that has now formed.",
-          "image_description": "Diagram showing tag end going through the larger loop."
-        },
-        {
-          "step_number": 5,
-          "instruction": "Moisten the knot with saliva and pull both the standing line and tag end to tighten.",
-          "image_description": "Diagram showing the knot being tightened, with a water droplet icon indicating moisture."
-        }
-      ]
-    },
-    "globalStyleGuide": {
-      "palette": [
-        "#00425A",
-        "#1F8A7E",
-        "#BFDB38",
-        "#F0A500",
-        "#EFEFEF",
-        "#333333"
-      ],
-      "mood": "Informative, Adventurous, Natural",
-      "themeVars": {
-        "primary": "#00425A",
-        "secondary": "#1F8A7E",
-        "accent": "#BFDB38",
-        "surface": "#EFEFEF",
-        "text": "#333333"
-      }
-    }
-  },
-  {
-    "visualizationId": "lesson-1-viz-3",
-    "type": "bento_grid",
-    "anchorSentence": "The U.S. is home to thousands of species, but four \"Kings\" dominate the industry:",
-    "rationale": "This section introduces four key game fish. A visual showcasing each fish with a brief identifier would help readers quickly distinguish and remember them.",
-    "payload": {
-      "title": "Top 4 Game Fish of the United States",
-      "items": [
-        {
-          "image_description": "Illustration of a Largemouth Bass",
-          "title": "Largemouth Bass",
-          "description": "Aggressive strikes, ambush hunter. Found in weedy lakes/ponds."
-        },
-        {
-          "image_description": "Illustration of a Channel Catfish",
-          "title": "Channel Catfish",
-          "description": "Strong sense of smell, powerful fighter. Found in rivers and murky lakes."
-        },
-        {
-          "image_description": "Illustration of a Rainbow Trout",
-          "title": "Rainbow Trout",
-          "description": "Beautiful, challenging to catch (fly fishing). Found in cold, oxygenated rivers."
-        },
-        {
-          "image_description": "Illustration of a Walleye",
-          "title": "Walleye",
-          "description": "Prized for white, flaky meat. Found in deep, rocky northern lakes."
-        }
-      ]
-    },
-    "globalStyleGuide": {
-      "palette": [
-        "#00425A",
-        "#1F8A7E",
-        "#BFDB38",
-        "#F0A500",
-        "#EFEFEF",
-        "#333333"
-      ],
-      "mood": "Informative, Adventurous, Natural",
-      "themeVars": {
-        "primary": "#00425A",
-        "secondary": "#1F8A7E",
-        "accent": "#BFDB38",
-        "surface": "#EFEFEF",
-        "text": "#333333"
-      }
-    }
-  },
-  {
-    "visualizationId": "lesson-1-viz-4",
-    "type": "story_image",
-    "anchorSentence": "Texas is arguably the most diverse fishing state in the Union, offering everything from desert reservoirs to swampy bayous.",
-    "rationale": "This sentence describes the diverse aquatic environments within Texas. A map highlighting the key fishing locations mentioned would provide geographical context and illustrate the diversity.",
-    "payload": {
-      "title": "Texas' Premier Fishing Destinations",
-      "imageSpecs": {
-        "description": "Map of Texas with key fishing lakes highlighted and labeled.",
-        "points_of_interest": [
-          {
-            "name": "Lake Fork",
-            "description": "Trophy Bass (Catch & Release)",
-            "location_marker": "East Texas"
+          "visualizationId": "1.1",
+          "title": "Popularity of Outdoor Sports in the US (2026)",
+          "type": "versus_split",
+          "dimensions": {
+            "width": 1200,
+            "height": 1200,
+            "orientation": "landscape"
           },
-          {
-            "name": "Lake Texoma",
-            "description": "Striper Capital (Freshwater Striped Bass)",
-            "location_marker": "North Texas/Oklahoma Border"
+          "placement": "Inline near anchor sentence",
+          "purpose": "This sentence presents a comparison of participation numbers between different sports. A visual comparing these activities would make the ranking immediately clear and easier to grasp than text alone.",
+          "anchorSentence": "As of 2026, recreational fishing remains the most popular outdoor sporting activity in the United States, surpassing even golf and tennis in terms of active participants.",
+          "globalStyleGuide": {
+            "colorPalette": {
+              "riverBlue": "#00425A",
+              "forestGreen": "#1F8A7E",
+              "sunriseGold": "#BFDB38",
+              "stoneGrey": "#F0A500",
+              "foamWhite": "#EFEFEF",
+              "deepNavy": "#333333",
+              "warningOrange": "#F0A500"
+            },
+            "typography": {
+              "fontFamily": [
+                "Inter",
+                "Source Sans Pro"
+              ],
+              "heading": "18-22pt bold",
+              "body": "12-14pt regular",
+              "decorativeFontsAllowed": false
+            },
+            "layout": {
+              "whitespace": "Generous",
+              "clutter": "None",
+              "principle": "Every element must earn its place"
+            },
+            "illustrationStyle": {
+              "design": "Clean vector infographics + realistic photo-based story images",
+              "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+              "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)"
+            },
+            "mood": "Informative, Adventurous, Natural"
           },
-          {
-            "name": "O.H. Ivie",
-            "description": "Modern Powerhouse for Legacy Bass",
-            "location_marker": "West Texas"
+          "panels": [
+            {
+              "side": "left",
+              "label": "Recreational Fishing",
+              "characteristics": [
+                "Most Popular Outdoor Sporting Activity"
+              ]
+            },
+            {
+              "side": "right",
+              "label": "Other Popular Sports (e.g., Golf, Tennis)",
+              "characteristics": [
+                "Lower Participation than Fishing"
+              ]
+            }
+          ],
+          "bridgeElement": "Active Participants"
+        },
+        {
+          "visualizationId": "1.2",
+          "title": "How to Tie the Improved Clinch Knot",
+          "type": "step_journey",
+          "dimensions": {
+            "width": 1200,
+            "height": 1200,
+            "orientation": "landscape"
           },
-          {
-            "name": "Sam Rayburn & Toledo Bend",
-            "description": "Proving grounds, vast timbered reservoirs",
-            "location_marker": "East Texas/Louisiana Border"
+          "placement": "Inline near anchor sentence",
+          "purpose": "Describing a knot-tying process is abstract and difficult to follow in text. A step-by-step visual guide is essential for learning this practical skill.",
+          "anchorSentence": "The \"old reliable\" for monofilament lines. It is easy to tie and maintains roughly 85-90% of the line’s original strength.",
+          "globalStyleGuide": {
+            "colorPalette": {
+              "riverBlue": "#00425A",
+              "forestGreen": "#1F8A7E",
+              "sunriseGold": "#BFDB38",
+              "stoneGrey": "#F0A500",
+              "foamWhite": "#EFEFEF",
+              "deepNavy": "#333333",
+              "warningOrange": "#F0A500"
+            },
+            "typography": {
+              "fontFamily": [
+                "Inter",
+                "Source Sans Pro"
+              ],
+              "heading": "18-22pt bold",
+              "body": "12-14pt regular",
+              "decorativeFontsAllowed": false
+            },
+            "layout": {
+              "whitespace": "Generous",
+              "clutter": "None",
+              "principle": "Every element must earn its place"
+            },
+            "illustrationStyle": {
+              "design": "Clean vector infographics + realistic photo-based story images",
+              "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+              "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)"
+            },
+            "mood": "Informative, Adventurous, Natural"
+          },
+          "structure": {
+            "milestones": [
+              {
+                "step_number": 1,
+                "instruction": "Pass the tag end through the eye of the hook.",
+                "image_description": "Diagram showing fishing line passing through hook eye."
+              },
+              {
+                "step_number": 2,
+                "instruction": "Wrap the tag end around the standing line 5-7 times.",
+                "image_description": "Diagram showing tag end wrapping around main line."
+              },
+              {
+                "step_number": 3,
+                "instruction": "Pass the tag end back through the loop closest to the hook eye.",
+                "image_description": "Diagram showing tag end going through the first loop formed."
+              },
+              {
+                "step_number": 4,
+                "instruction": "Pass the tag end through the large loop that has now formed.",
+                "image_description": "Diagram showing tag end going through the larger loop."
+              },
+              {
+                "step_number": 5,
+                "instruction": "Moisten the knot with saliva and pull both the standing line and tag end to tighten.",
+                "image_description": "Diagram showing the knot being tightened, with a water droplet icon indicating moisture."
+              }
+            ]
           }
-        ]
-      }
-    },
-    "globalStyleGuide": {
-      "palette": [
-        "#00425A",
-        "#1F8A7E",
-        "#BFDB38",
-        "#F0A500",
-        "#EFEFEF",
-        "#333333"
-      ],
-      "mood": "Informative, Adventurous, Natural",
-      "themeVars": {
-        "primary": "#00425A",
-        "secondary": "#1F8A7E",
-        "accent": "#BFDB38",
-        "surface": "#EFEFEF",
-        "text": "#333333"
-      }
+        },
+        {
+          "visualizationId": "1.3",
+          "title": "Top 4 Game Fish of the United States",
+          "type": "bento_grid",
+          "dimensions": {
+            "width": 1200,
+            "height": 1200,
+            "orientation": "landscape"
+          },
+          "placement": "Inline near anchor sentence",
+          "purpose": "This section introduces four key game fish. A visual showcasing each fish with a brief identifier would help readers quickly distinguish and remember them.",
+          "anchorSentence": "The U.S. is home to thousands of species, but four \"Kings\" dominate the industry:",
+          "globalStyleGuide": {
+            "colorPalette": {
+              "riverBlue": "#00425A",
+              "forestGreen": "#1F8A7E",
+              "sunriseGold": "#BFDB38",
+              "stoneGrey": "#F0A500",
+              "foamWhite": "#EFEFEF",
+              "deepNavy": "#333333",
+              "warningOrange": "#F0A500"
+            },
+            "typography": {
+              "fontFamily": [
+                "Inter",
+                "Source Sans Pro"
+              ],
+              "heading": "18-22pt bold",
+              "body": "12-14pt regular",
+              "decorativeFontsAllowed": false
+            },
+            "layout": {
+              "whitespace": "Generous",
+              "clutter": "None",
+              "principle": "Every element must earn its place"
+            },
+            "illustrationStyle": {
+              "design": "Clean vector infographics + realistic photo-based story images",
+              "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+              "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)"
+            },
+            "mood": "Informative, Adventurous, Natural"
+          },
+          "distortions": [
+            {
+              "image_description": "Illustration of a Largemouth Bass",
+              "title": "Largemouth Bass",
+              "description": "Aggressive strikes, ambush hunter. Found in weedy lakes/ponds."
+            },
+            {
+              "image_description": "Illustration of a Channel Catfish",
+              "title": "Channel Catfish",
+              "description": "Strong sense of smell, powerful fighter. Found in rivers and murky lakes."
+            },
+            {
+              "image_description": "Illustration of a Rainbow Trout",
+              "title": "Rainbow Trout",
+              "description": "Beautiful, challenging to catch (fly fishing). Found in cold, oxygenated rivers."
+            },
+            {
+              "image_description": "Illustration of a Walleye",
+              "title": "Walleye",
+              "description": "Prized for white, flaky meat. Found in deep, rocky northern lakes."
+            }
+          ]
+        },
+        {
+          "visualizationId": "1.4",
+          "title": "Texas' Premier Fishing Destinations",
+          "type": "story_image",
+          "dimensions": {
+            "width": 1400,
+            "height": 900,
+            "orientation": "landscape"
+          },
+          "placement": "Inline near anchor sentence",
+          "purpose": "This sentence describes the diverse aquatic environments within Texas. A map highlighting the key fishing locations mentioned would provide geographical context and illustrate the diversity.",
+          "anchorSentence": "Texas is arguably the most diverse fishing state in the Union, offering everything from desert reservoirs to swampy bayous.",
+          "globalStyleGuide": {
+            "colorPalette": {
+              "riverBlue": "#00425A",
+              "forestGreen": "#1F8A7E",
+              "sunriseGold": "#BFDB38",
+              "stoneGrey": "#F0A500",
+              "foamWhite": "#EFEFEF",
+              "deepNavy": "#333333",
+              "warningOrange": "#F0A500"
+            },
+            "typography": {
+              "fontFamily": [
+                "Inter",
+                "Source Sans Pro"
+              ],
+              "heading": "18-22pt bold",
+              "body": "12-14pt regular",
+              "decorativeFontsAllowed": false
+            },
+            "layout": {
+              "whitespace": "Generous",
+              "clutter": "None",
+              "principle": "Every element must earn its place"
+            },
+            "illustrationStyle": {
+              "design": "Clean vector infographics + realistic photo-based story images",
+              "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+              "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)"
+            },
+            "mood": "Informative, Adventurous, Natural"
+          },
+          "imageSpecs": {
+            "brief": "Map of Texas with key fishing lakes highlighted and labeled.",
+            "points_of_interest": [
+              {
+                "name": "Lake Fork",
+                "description": "Trophy Bass (Catch & Release)",
+                "location_marker": "East Texas"
+              },
+              {
+                "name": "Lake Texoma",
+                "description": "Striper Capital (Freshwater Striped Bass)",
+                "location_marker": "North Texas/Oklahoma Border"
+              },
+              {
+                "name": "O.H. Ivie",
+                "description": "Modern Powerhouse for Legacy Bass",
+                "location_marker": "West Texas"
+              },
+              {
+                "name": "Sam Rayburn & Toledo Bend",
+                "description": "Proving grounds, vast timbered reservoirs",
+                "location_marker": "East Texas/Louisiana Border"
+              }
+            ]
+          }
+        }
+      ]
     }
+  ],
+  "production": {
+    "recommendedWorkflow": [
+      "Generate visual elements first",
+      "Export at 2x resolution",
+      "Overlay text manually in design tool",
+      "Verify color consistency across all visuals"
+    ],
+    "placementGuidelines": [
+      "Precede each visual with one setup sentence",
+      "Follow with one reference sentence",
+      "Avoid orphan visuals without anchor context"
+    ]
   }
-]
+}

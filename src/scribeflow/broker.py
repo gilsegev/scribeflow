@@ -25,20 +25,22 @@ def _sanitize_payload(t: str, payload: dict[str, Any]) -> dict[str, Any]:
     if t == "versus_split":
         return {
             "title": payload.get("title", "Comparison"),
-            "left": {"title": payload.get("left_column_title"), "text": payload.get("left_column_text")},
-            "right": {"title": payload.get("right_column_title"), "text": payload.get("right_column_text")},
-            "comparisonPoint": payload.get("comparison_point", "Key Difference"),
+            "panels": [
+                {"side": "left", "label": payload.get("left_column_title", "Left"), "characteristics": [payload.get("left_column_text", "")]},
+                {"side": "right", "label": payload.get("right_column_title", "Right"), "characteristics": [payload.get("right_column_text", "")]},
+            ],
+            "bridgeElement": payload.get("comparison_point", "Key Difference"),
         }
     if t == "bento_grid":
         items = payload.get("items", [])
-        return {"title": payload.get("title", "Bento Overview"), "items": items if isinstance(items, list) else []}
+        return {"title": payload.get("title", "Grid Reference"), "distortions": items if isinstance(items, list) else []}
     if t == "step_journey":
         steps = payload.get("steps", [])
-        return {"title": payload.get("title", "Step Journey"), "items": steps if isinstance(steps, list) else []}
+        return {"title": payload.get("title", "Step Journey"), "structure": {"milestones": steps if isinstance(steps, list) else []}}
     return {
         "title": payload.get("title", "Story Image"),
         "imageSpecs": {
-            "description": payload.get("image_description") or payload.get("description") or payload.get("title", "Context image"),
+            "brief": payload.get("image_description") or payload.get("description") or payload.get("title", "Context image"),
             "points_of_interest": payload.get("points_of_interest", []),
         },
     }
@@ -47,15 +49,23 @@ def _sanitize_payload(t: str, payload: dict[str, Any]) -> dict[str, Any]:
 def _style_injection(style_guide: dict[str, Any]) -> dict[str, Any]:
     palette = style_guide.get("palette", [])
     return {
-        "palette": palette,
-        "mood": style_guide.get("mood", ""),
-        "themeVars": {
-            "primary": palette[0] if len(palette) > 0 else "#00425A",
-            "secondary": palette[1] if len(palette) > 1 else "#1F8A7E",
-            "accent": palette[2] if len(palette) > 2 else "#BFDB38",
-            "surface": palette[4] if len(palette) > 4 else "#EFEFEF",
-            "text": palette[5] if len(palette) > 5 else "#333333",
+        "colorPalette": {
+            "riverBlue": palette[0] if len(palette) > 0 else "#2B6CB0",
+            "forestGreen": palette[1] if len(palette) > 1 else "#2F855A",
+            "sunriseGold": palette[2] if len(palette) > 2 else "#D69E2E",
+            "stoneGrey": palette[3] if len(palette) > 3 else "#4A5568",
+            "foamWhite": palette[4] if len(palette) > 4 else "#F7FAFC",
+            "deepNavy": palette[5] if len(palette) > 5 else "#1A365D",
+            "warningOrange": palette[3] if len(palette) > 3 else "#DD6B20",
         },
+        "typography": {"fontFamily": ["Inter", "Source Sans Pro"], "heading": "18-22pt bold", "body": "12-14pt regular", "decorativeFontsAllowed": False},
+        "layout": {"whitespace": "Generous", "clutter": "None", "principle": "Every element must earn its place"},
+        "illustrationStyle": {
+            "design": "Clean vector infographics + realistic photo-based story images",
+            "shapes": "Simple icons and panels for diagrams; natural scenes for photos",
+            "humanFigures": "Real people in photos; no identifiable faces required (prefer turned-away or out-of-focus)",
+        },
+        "mood": style_guide.get("mood", "Informative, Adventurous, Natural"),
     }
 
 
@@ -65,17 +75,51 @@ class BrokerService:
         compiled = []
         for i, item in enumerate(visual_manifest, start=1):
             mapped = _map_type(item.get("template_type", "story_image"))
+            body = _sanitize_payload(mapped, item.get("data_payload", {}))
+            dimensions = {"width": 1400, "height": 900, "orientation": "landscape"} if mapped == "story_image" else {"width": 1200, "height": 1200, "orientation": "landscape"}
             compiled.append(
                 {
-                    "visualizationId": f"{lesson_id}-viz-{i}",
+                    "visualizationId": f"1.{i}",
+                    "title": body.get("title", f"Visualization {i}"),
                     "type": mapped,
+                    "dimensions": dimensions,
+                    "placement": "Inline near anchor sentence",
+                    "purpose": item.get("rationale", ""),
                     "anchorSentence": item.get("anchor_sentence", ""),
-                    "rationale": item.get("rationale", ""),
-                    "payload": _sanitize_payload(mapped, item.get("data_payload", {})),
                     "globalStyleGuide": style,
+                    **({k: v for k, v in body.items() if k != "title"}),
                 }
             )
         return compiled
+
+    def compile_course_payload(self, visual_manifest: list[dict[str, Any]], style_guide: dict[str, Any], lesson_id: str = "lesson-1", course_title: str = "ScribeFlow Course") -> dict[str, Any]:
+        visualizations = self.compile_payloads(visual_manifest, style_guide, lesson_id=lesson_id)
+        return {
+            "course": {
+                "title": course_title,
+                "targetAudience": "Curriculum learners requiring visual reinforcement",
+                "designPhilosophy": "Pedagogical clarity with calm, scannable visuals.",
+                "learningScienceRationale": [
+                    {"principle": "Dual Coding Theory", "theorist": "Paivio", "description": "Pair text with visuals to improve retention."},
+                    {"principle": "Signaling Principle", "theorist": "Mayer", "description": "Highlight key contrasts and structure to reduce search effort."},
+                ],
+                "globalStyleGuide": _style_injection(style_guide),
+            },
+            "lessons": [{"lessonId": lesson_id, "title": "Auto-generated lesson", "description": "Generated from Prompt-1 visual manifest.", "visualizations": visualizations}],
+            "production": {
+                "recommendedWorkflow": [
+                    "Generate visual elements first",
+                    "Export at 2x resolution",
+                    "Overlay text manually in design tool",
+                    "Verify color consistency across all visuals",
+                ],
+                "placementGuidelines": [
+                    "Precede each visual with one setup sentence",
+                    "Follow with one reference sentence",
+                    "Avoid orphan visuals without anchor context",
+                ],
+            },
+        }
 
     async def post_sequential(self, payloads: list[dict[str, Any]], endpoint: str, timeout_s: float = 10.0) -> list[dict[str, Any]]:
         results: list[dict[str, Any]] = []
@@ -97,21 +141,22 @@ class BrokerService:
 
 @dataclass
 class BrokerRunResult:
-    compiled_payloads: list[dict[str, Any]]
+    compiled_payloads: dict[str, Any]
     handshakes: list[dict[str, Any]]
     elapsed_seconds: float
 
 
-def generate_review_html(markdown: str, compiled_payloads: list[dict[str, Any]], handshakes: list[dict[str, Any]], out_path: str | Path) -> None:
+def generate_review_html(markdown: str, compiled_payloads: dict[str, Any], handshakes: list[dict[str, Any]], out_path: str | Path) -> None:
     url_by_id = {}
     for h in handshakes:
         if h.get("ok"):
             body = h.get("response", {})
             url_by_id[h["visualizationId"]] = body.get("url") or body.get("imageUrl") or body.get("posterUrl") or ""
 
+    visualizations = ((compiled_payloads.get("lessons") or [{}])[0].get("visualizations") or [])
     paras = [p.strip() for p in markdown.split("\n\n") if p.strip()]
     anchors: dict[int, list[dict[str, Any]]] = {i: [] for i in range(len(paras))}
-    for p in compiled_payloads:
+    for p in visualizations:
         anchor = p.get("anchorSentence", "")
         idx = next((i for i, para in enumerate(paras) if anchor and anchor in para), len(paras) - 1 if paras else 0)
         anchors.setdefault(idx, []).append(p)
@@ -144,12 +189,12 @@ img{{width:100%;border-radius:6px;margin-top:6px}}.ph{{height:140px;display:flex
 async def run_broker(markdown: str, visual_manifest: list[dict[str, Any]], style_guide: dict[str, Any], endpoint: str, review_html_path: str | Path, lesson_id: str = "lesson-1", dry_run: bool = False) -> BrokerRunResult:
     start = time.perf_counter()
     svc = BrokerService()
-    compiled = svc.compile_payloads(visual_manifest, style_guide, lesson_id=lesson_id)
+    compiled = svc.compile_course_payload(visual_manifest, style_guide, lesson_id=lesson_id)
+    visualizations = ((compiled.get("lessons") or [{}])[0].get("visualizations") or [])
     handshakes = (
-        [{"visualizationId": p["visualizationId"], "ok": True, "response": {"url": ""}} for p in compiled]
+        [{"visualizationId": p["visualizationId"], "ok": True, "response": {"url": ""}} for p in visualizations]
         if dry_run
-        else await svc.post_sequential(compiled, endpoint)
+        else await svc.post_sequential(visualizations, endpoint)
     )
     generate_review_html(markdown, compiled, handshakes, review_html_path)
     return BrokerRunResult(compiled_payloads=compiled, handshakes=handshakes, elapsed_seconds=round(time.perf_counter() - start, 3))
-

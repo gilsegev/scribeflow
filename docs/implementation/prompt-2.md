@@ -7,6 +7,9 @@
 - Injected `globalStyleGuide` into every compiled payload.
 - Added sequential async POST queue with retry/backoff for handshake resilience.
 - Added Companion HTML generator (`review.html`) that aligns markdown paragraphs with visual anchors.
+- Aligned compiled JSON layout with `assets/test docs/fishing_course.json`:
+  - top-level keys: `course`, `lessons`, `production`
+  - lesson shape includes `visualizations[]` entries expected by the visualization engine.
 
 ## New files
 - `src/scribeflow/broker.py`
