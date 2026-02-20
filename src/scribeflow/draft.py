@@ -4,8 +4,9 @@ import json
 import os
 from typing import Any
 
-from openai import OpenAI
+from openai import AuthenticationError
 
+from .openrouter import client as openrouter_client
 SYSTEM_PROMPT = """You are ScribeFlow Writer. Return only markdown.
 Write a full, scannable 5-page-ready draft with an informative, adventurous, natural tone.
 Requirements:
@@ -161,9 +162,8 @@ This draft is structured for direct DOCX layout with clear headers, bullets, and
 
 class DraftService:
     def __init__(self, model: str | None = None) -> None:
-        self.model = model or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-2.5-flash-lite")
-        key = os.getenv("OPENROUTER_API_KEY")
-        self.client = OpenAI(api_key=key, base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")) if key else None
+        self.model = model or os.getenv("OPENROUTER_MODEL") or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-2.5-flash-lite")
+        self.client = openrouter_client()
 
     def expand(self, markdown: str, visual_manifest: list[dict[str, Any]], style_guide: dict[str, Any]) -> str:
         if not self.client:
@@ -180,5 +180,9 @@ class DraftService:
                 messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user_prompt}],
             )
             return (r.choices[0].message.content or "").strip()
+        except AuthenticationError as e:
+            raise RuntimeError(
+                "OpenRouter authentication failed (401). Update OPENROUTER_API_KEY in .env (current key is invalid/revoked)."
+            ) from e
         except Exception:
             return _fallback(markdown, visual_manifest, style_guide)

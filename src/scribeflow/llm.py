@@ -5,7 +5,9 @@ import os
 import re
 from typing import Any
 
-from openai import OpenAI
+from openai import AuthenticationError
+
+from .openrouter import client as openrouter_client
 
 SYSTEM_PROMPT = """You are ScribeLLM, a Senior Visual Pedagogy Expert.
 Analyze markdown curriculum and identify high-cognitive-load or abstract sections
@@ -68,16 +70,8 @@ def _heuristic(markdown: str, page_estimate: int) -> dict[str, Any]:
 
 class ScribeLLM:
     def __init__(self, model: str | None = None) -> None:
-        self.model = model or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-2.5-flash-lite")
-        openrouter_key = os.getenv("OPENROUTER_API_KEY")
-        self.client = (
-            OpenAI(
-                api_key=openrouter_key,
-                base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
-            )
-            if openrouter_key
-            else None
-        )
+        self.model = model or os.getenv("OPENROUTER_MODEL") or os.getenv("SCRIBEFLOW_LLM_MODEL", "google/gemini-2.5-flash-lite")
+        self.client = openrouter_client()
 
     def analyze(self, markdown: str, page_estimate: int) -> dict[str, Any]:
         if not self.client:
@@ -87,10 +81,15 @@ class ScribeLLM:
             "Produce tasteful recommendations only.\n\n"
             f"Markdown:\n{markdown[:12000]}"
         )
-        resp = self.client.chat.completions.create(
-            model=self.model,
-            temperature=0.2,
-            response_format={"type": "json_object"},
-            messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user_prompt}],
-        )
+        try:
+            resp = self.client.chat.completions.create(
+                model=self.model,
+                temperature=0.2,
+                response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user_prompt}],
+            )
+        except AuthenticationError as e:
+            raise RuntimeError(
+                "OpenRouter authentication failed (401). Update OPENROUTER_API_KEY in .env (current key is invalid/revoked)."
+            ) from e
         return json.loads(resp.choices[0].message.content or "{}")

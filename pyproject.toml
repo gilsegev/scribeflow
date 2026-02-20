@@ -16,6 +16,7 @@ dependencies = [
 [project.scripts]
 scribeflow = "scribeflow.cli:main"
 scribeflow-draft = "scribeflow.draft_cli:main"
+scribeflow-openrouter-check = "scribeflow.openrouter_check_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
