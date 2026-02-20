@@ -1,24 +1,27 @@
-﻿# Prompt 2 Implementation
+# Prompt 2 Implementation (Broker & Integration Layer)
 
 ## What was implemented
-- Added a compact draft-generation layer that expands extracted markdown into a 5-page-ready draft.
-- Integrated visual placeholders from the Visual Manifest using required placeholder format.
-- Ensured style notes include palette and mood from the Style Guide.
-- Added OpenRouter-backed generation with deterministic fallback when API key is missing.
+- Added `BrokerService` to compile Prompt-1 outputs into Visualization Engine payloads.
+- Added ID management (`lesson-1-viz-N`) for each artifact.
+- Added template type mapping and payload sanitization per template.
+- Injected `globalStyleGuide` into every compiled payload.
+- Added sequential async POST queue with retry/backoff for handshake resilience.
+- Added Companion HTML generator (`review.html`) that aligns markdown paragraphs with visual anchors.
 
 ## New files
-- `src/scribeflow/draft.py`: Prompt-2 writer service.
-- `src/scribeflow/draft_cli.py`: CLI for generating expanded draft markdown.
+- `src/scribeflow/broker.py`
+- `src/scribeflow/broker_cli.py`
 
 ## CLI
 ```bash
-scribeflow-draft \
+scribeflow-broker \
   --markdown generated_artifacts/the_american_angler.extracted.md \
   --manifest generated_artifacts/the_american_angler.visual_manifest.json \
   --style generated_artifacts/the_american_angler.style_guide.json \
-  --output generated_artifacts/the_american_angler.expanded.md
+  --endpoint http://localhost:3000/api/visualizations \
+  --review-html generated_artifacts/review.html \
+  --compiled-out generated_artifacts/compiled_payloads.json
 ```
 
-## Notes
-- Uses `SCRIBEFLOW_LLM_MODEL` via OpenRouter (default: `google/gemini-2.5-flash-lite`).
-- Returns markdown only, ready for DOCX/PDF formatting.
+## Dry-run mode
+Use `--dry-run` to validate compile + review HTML generation without calling the Visualization Engine.

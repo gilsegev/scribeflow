@@ -11,12 +11,14 @@ dependencies = [
   "markitdown>=0.1.1",
   "openai>=1.40.0",
   "python-dotenv>=1.0.1",
+  "httpx>=0.27.0",
 ]
 
 [project.scripts]
 scribeflow = "scribeflow.cli:main"
 scribeflow-draft = "scribeflow.draft_cli:main"
 scribeflow-openrouter-check = "scribeflow.openrouter_check_cli:main"
+scribeflow-broker = "scribeflow.broker_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
