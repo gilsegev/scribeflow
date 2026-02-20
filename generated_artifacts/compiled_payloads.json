@@ -297,7 +297,7 @@
             "mood": "Informative, Adventurous, Natural"
           },
           "imageSpecs": {
-            "brief": "Map of Texas with key fishing lakes highlighted and labeled.",
+            "brief": "Map of Texas with key fishing lakes highlighted.",
             "points_of_interest": [
               {
                 "name": "Lake Fork",
@@ -319,7 +319,32 @@
                 "description": "Proving grounds, vast timbered reservoirs",
                 "location_marker": "East Texas/Louisiana Border"
               }
-            ]
+            ],
+            "constraints": {
+              "noBakedInText": true,
+              "doNotInclude": [
+                "text",
+                "letters",
+                "numbers",
+                "equations",
+                "logos",
+                "watermarks"
+              ]
+            },
+            "rendering": {
+              "generation": {
+                "promptParts": {
+                  "negative": [
+                    "text overlay",
+                    "letters",
+                    "numbers",
+                    "equations",
+                    "logos",
+                    "watermark"
+                  ]
+                }
+              }
+            }
           }
         }
       ]

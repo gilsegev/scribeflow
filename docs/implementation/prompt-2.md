@@ -10,6 +10,9 @@
 - Aligned compiled JSON layout with `assets/test docs/fishing_course.json`:
   - top-level keys: `course`, `lessons`, `production`
   - lesson shape includes `visualizations[]` entries expected by the visualization engine.
+- Enforced no-text image generation policy for Flux compatibility:
+  - LLM prompt and post-processing forbid requesting text/numbers/equations/logos in generated imagery.
+  - Broker injects `imageSpecs.constraints.noBakedInText=true` and negative prompt terms for text artifacts.
 
 ## New files
 - `src/scribeflow/broker.py`
@@ -21,7 +24,7 @@ scribeflow-broker \
   --markdown generated_artifacts/the_american_angler.extracted.md \
   --manifest generated_artifacts/the_american_angler.visual_manifest.json \
   --style generated_artifacts/the_american_angler.style_guide.json \
-  --endpoint http://localhost:3000/api/visualizations \
+  --endpoint http://localhost:3000/generate/manifest \
   --review-html generated_artifacts/review.html \
   --compiled-out generated_artifacts/compiled_payloads.json
 ```

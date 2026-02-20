@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import time
 from dataclasses import dataclass
 from html import escape
@@ -11,6 +12,17 @@ from typing import Any
 import httpx
 
 SUPPORTED_TYPES = {"bento_grid", "versus_split", "step_journey", "story_image"}
+
+
+def _clean_image_brief(text: str) -> str:
+    t = str(text or "").strip()
+    t = t.replace("labeled", "highlighted")
+    t = t.replace("labelled", "highlighted")
+    t = t.replace("with text", "with symbolic markers")
+    t = t.replace("with numbers", "with symbolic markers")
+    t = t.replace("highlighted and highlighted", "highlighted")
+    t = re.sub(r"\bhighlighted and highlighted\b", "highlighted", t, flags=re.I)
+    return t
 
 
 def _map_type(t: str) -> str:
@@ -40,8 +52,19 @@ def _sanitize_payload(t: str, payload: dict[str, Any]) -> dict[str, Any]:
     return {
         "title": payload.get("title", "Story Image"),
         "imageSpecs": {
-            "brief": payload.get("image_description") or payload.get("description") or payload.get("title", "Context image"),
+            "brief": _clean_image_brief(payload.get("image_description") or payload.get("description") or payload.get("title", "Context image")),
             "points_of_interest": payload.get("points_of_interest", []),
+            "constraints": {
+                "noBakedInText": True,
+                "doNotInclude": ["text", "letters", "numbers", "equations", "logos", "watermarks"],
+            },
+            "rendering": {
+                "generation": {
+                    "promptParts": {
+                        "negative": ["text overlay", "letters", "numbers", "equations", "logos", "watermark"]
+                    }
+                }
+            },
         },
     }
 
@@ -121,15 +144,27 @@ class BrokerService:
             },
         }
 
-    async def post_sequential(self, payloads: list[dict[str, Any]], endpoint: str, timeout_s: float = 10.0) -> list[dict[str, Any]]:
+    async def post_sequential(
+        self,
+        payloads: list[dict[str, Any]],
+        endpoint: str,
+        timeout_s: float = 10.0,
+        course: dict[str, Any] | None = None,
+        lesson_id: str = "lesson-1",
+    ) -> list[dict[str, Any]]:
         results: list[dict[str, Any]] = []
         async with httpx.AsyncClient(timeout=timeout_s) as client:
             for p in payloads:
                 for attempt in range(3):
                     try:
-                        r = await client.post(endpoint, json=p)
+                        body: dict[str, Any] | list[Any] = p
+                        if endpoint.rstrip("/").endswith("/generate/manifest"):
+                            body = {"course": course or {}, "lessons": [{"lessonId": lesson_id, "title": "Auto-generated lesson", "description": "Single-visualization manifest for sequential handshake.", "visualizations": [p]}]}
+                        r = await client.post(endpoint, json=body)
                         r.raise_for_status()
-                        results.append({"visualizationId": p["visualizationId"], "ok": True, "response": r.json() if r.text else {}})
+                        data = r.json() if r.text else {}
+                        has_error = isinstance(data, dict) and bool(data.get("error"))
+                        results.append({"visualizationId": p["visualizationId"], "ok": not has_error, "response": data})
                         break
                     except Exception as e:
                         if attempt == 2:
@@ -194,7 +229,7 @@ async def run_broker(markdown: str, visual_manifest: list[dict[str, Any]], style
     handshakes = (
         [{"visualizationId": p["visualizationId"], "ok": True, "response": {"url": ""}} for p in visualizations]
         if dry_run
-        else await svc.post_sequential(visualizations, endpoint)
+        else await svc.post_sequential(visualizations, endpoint, course=compiled.get("course", {}), lesson_id=lesson_id)
     )
     generate_review_html(markdown, compiled, handshakes, review_html_path)
     return BrokerRunResult(compiled_payloads=compiled, handshakes=handshakes, elapsed_seconds=round(time.perf_counter() - start, 3))

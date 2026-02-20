@@ -13,6 +13,9 @@ SYSTEM_PROMPT = """You are ScribeLLM, a Senior Visual Pedagogy Expert.
 Analyze markdown curriculum and identify high-cognitive-load or abstract sections
 that benefit from visuals using Dual Coding Theory and the Signaling Principle.
 Keep recommendations tasteful: limit to 1-2 high-impact artifacts per page.
+Critical image-generation constraint:
+- Flux-style image generation is weak at text rendering. Never ask the image model to render words, numbers, labels, equations, or logos inside imagery.
+- Always describe scenes/symbols/composition only; text will be overlaid later by templates.
 Return only JSON with:
 {
   "visual_manifest": [
@@ -29,6 +32,8 @@ Return only JSON with:
   }
 }
 """
+
+NO_TEXT_TERMS = ["text", "numbers", "letters", "labels", "captions", "equations", "logos", "watermarks"]
 
 
 def _sentences(markdown: str) -> list[str]:
@@ -65,7 +70,50 @@ def _heuristic(markdown: str, page_estimate: int) -> dict[str, Any]:
         "template_type": _template_for(s),
         "data_payload": {"source_excerpt": s, "key_points": [p.strip() for p in re.split(r"[,:;]", s)[:4] if p.strip()]},
     } for s in ranked]
-    return {"visual_manifest": manifest, "style_guide": _heuristic_style(markdown)}
+    return _enforce_visual_constraints({"visual_manifest": manifest, "style_guide": _heuristic_style(markdown)})
+
+
+def _strip_text_generation_phrases(text: str) -> str:
+    t = text.strip()
+    t = re.sub(r"\b(with|include|show|add)\s+(visible\s+)?(text|numbers?|letters?|labels?|captions?|equations?)\b", "with visual symbols only", t, flags=re.I)
+    t = re.sub(r"\b(labeled|labelled)\b", "symbol-marked", t, flags=re.I)
+    return t
+
+
+def _enforce_visual_constraints(analysis: dict[str, Any]) -> dict[str, Any]:
+    manifest = analysis.get("visual_manifest") if isinstance(analysis, dict) else None
+    if not isinstance(manifest, list):
+        return analysis
+    for item in manifest:
+        if not isinstance(item, dict):
+            continue
+        payload = item.get("data_payload")
+        if not isinstance(payload, dict):
+            payload = {}
+        t = str(item.get("template_type", "")).lower()
+        if isinstance(payload.get("image_description"), str):
+            payload["image_description"] = _strip_text_generation_phrases(payload["image_description"])
+        if isinstance(payload.get("description"), str):
+            payload["description"] = _strip_text_generation_phrases(payload["description"])
+        if t in {"story_image", "bento_grid", "step_journey"}:
+            payload["rendering_constraints"] = {
+                "no_baked_text": True,
+                "no_numbers_or_equations": True,
+                "do_not_include": NO_TEXT_TERMS,
+            }
+            neg = payload.get("negative_prompt_terms", [])
+            payload["negative_prompt_terms"] = list(dict.fromkeys(([*(neg if isinstance(neg, list) else []), *NO_TEXT_TERMS])))
+        for key in ("items", "steps", "points_of_interest"):
+            seq = payload.get(key)
+            if isinstance(seq, list):
+                for obj in seq:
+                    if isinstance(obj, dict):
+                        if isinstance(obj.get("image_description"), str):
+                            obj["image_description"] = _strip_text_generation_phrases(obj["image_description"])
+                        obj["no_baked_text"] = True
+        item["data_payload"] = payload
+    analysis["visual_manifest"] = manifest
+    return analysis
 
 
 class ScribeLLM:
@@ -92,4 +140,4 @@ class ScribeLLM:
             raise RuntimeError(
                 "OpenRouter authentication failed (401). Update OPENROUTER_API_KEY in .env (current key is invalid/revoked)."
             ) from e
-        return json.loads(resp.choices[0].message.content or "{}")
+        return _enforce_visual_constraints(json.loads(resp.choices[0].message.content or "{}"))
